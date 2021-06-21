@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Campground = require('../models/campground');
 const cities = require('./cities');
-const { places, descriptors } = require('./seedHelpers');
+const { descriptors, places } = require('./seedHelpers');
 
 //MONGOOSE CONNECTION
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
@@ -17,16 +17,20 @@ db.once('open', () => {
 });
 
 const sample = (array) => {
-    array[Math.floor(Math.random() * array.length)];
-}
+    return array[Math.floor(Math.random() * array.length)];
+};
 
 const seedDB = async () => {
     await Campground.deleteMany({});
     for (let i = 0; i < 50; i++) {
         const randomCities = Math.floor(Math.random() * 1000);
+        const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
             location: `${cities[randomCities].city},${cities[randomCities].state}`,
-            title: `${sample(descriptors)} ${sample(places)}`
+            title: `${sample(descriptors)} ${sample(places)}`,
+            image: 'https://source.unsplash.com/collection/483251',
+            description: "Fuck you, your family and your cow",
+            price: price
         });
         await camp.save();
     }
