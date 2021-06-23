@@ -16,10 +16,8 @@
                         <p class="card-text">
                             <%= campground.description %>
                         </p>
-                        <p class="card-text">
-                            <s class="text-muted">
-                                <%= campground.location %>
-                            </s>
+                        <p class="card-text text-muted">
+                            <%= campground.location %>
                         </p>
                         <a class="btn btn-primary" href="/campgrounds/<%= campground._id %> ">View <%= campground.title
                                 %> </a>
