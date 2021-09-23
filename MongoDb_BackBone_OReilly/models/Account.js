@@ -1,7 +1,7 @@
 module.exports= function(config,mongoose,nodemailer){
-var crypto = require('crypto');
-var nodemailer = require('nodemailer');
-var mongoose = require('mongoose');
+    var crypto = require('crypto');
+    var nodemailer = require('nodemailer');
+    var mongoose = require('mongoose');
 
     var AccountSchema = new mongoose.Schema({
         email: {type:String, unique:true},
