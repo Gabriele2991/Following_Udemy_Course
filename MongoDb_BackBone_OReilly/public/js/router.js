@@ -1,12 +1,13 @@
-define(['views/index','views/register','views/login','views/forgotpassword'],
-        function(IndexView,Registerview,LoginView,ForgotPasswordView){
+define(['views/index','views/register','views/login','views/forgotpassword','views/profile','models/Account','models/StatusCollection'],
+        function(IndexView,Registerview,LoginView,ForgotPasswordView,ProfileView,Account,StatusCollection){
             var SocialRouter = Backbone.Router.extend({
                 currentView:null,
                 routes:{
                     "index":"index",
                     "login":"login",
                     "register":"register",
-                    "forgotpassword":"forgotpassword"
+                    "forgotpassword":"forgotpassword",
+                    "profile/:id":"profile"
                 },
                 changeView:function(view){
                     if(null != this.currentView){
@@ -16,16 +17,26 @@ define(['views/index','views/register','views/login','views/forgotpassword'],
                     this.currentView.render();
                 },
                 index:function(){
-                    this.changeView(new IndexView);
+                    var statusCollection = new StatusCollection();
+                    statusCollection.url = '/accounts/me/activity';
+                    this.changeView(new IndexView({
+                        collection:statusCollection
+                    }));
+                    statusCollection.fetch();
                 },
                 login:function(){
                     this.changeView(new LoginView());
                 },
                 register: function () {
-                    this.changeView(new Registerview);
+                    this.changeView(new Registerview());
                 },
                 forgotpassword: function () {
-                    this.changeView(new ForgotPasswordView);
+                    this.changeView(new ForgotPasswordView());
+                },
+                profile:function(id){
+                    var model = new Account({id:id});
+                    this.changeView(new ProfileView({model:model}));
+                    model.fetch();
                 }
             });
             return new SocialRouter();
