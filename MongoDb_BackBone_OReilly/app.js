@@ -116,6 +116,29 @@ app.get('/accounts/:id', function (req, res) {
     })
 });
 
+app.get('/accounts/:id/contacts',function(req,res){
+    var accountId = req.params.id == 'me' ? req.session.accountId : req.params.id;
+    models.Account.findById(accountId,function(account){
+        res.send(account.contacts);
+    });
+});
+
+app.post('/contacts/find',function(req,res){
+    var searchStr = req.query.searchStr;
+    if(null == searchStr){
+        res.send(400);
+        return;
+    }
+
+    models.Account.findByString(searchStr,function onSearchDone(err,accounts){
+        if(err||accounts.length == 0){
+            res.send(400);
+        }else{
+            res.send(accounts);
+        }
+    });
+});
+
 app.post('/forgotpassword',function(req,res){
     var hostname = req.headers.host;
     var resetPasswordUrl = 'http://'+ hostname +'/resetPassword';
