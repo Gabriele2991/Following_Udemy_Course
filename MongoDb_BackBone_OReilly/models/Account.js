@@ -106,6 +106,35 @@ module.exports= function(config,mongoose,nodemailer){
         console.log('Account saved');
     }
 
+    var addContact = function(account,addcontact){
+        contact={
+            name:addcontact.name,
+            accountId:addcontact._id,
+            added:new Date(),
+            updated:new Date()
+        };
+
+        account.contacts.push(contact);
+        account.save(function(err){
+            if(err){
+                console.log('Error saving account:' + err);
+            }
+        })
+    }
+
+    var removeContact = function(account,contactId){
+        if(null == account.contacts){
+            return;
+        };
+
+        account.contacts.forEach(function(contact){
+            if(contact.accountId == contactId){
+                account.contacts.remove(contact);
+            }
+        });
+        account.save();
+    };
+
     return{
         findById:findById,
         register:register,

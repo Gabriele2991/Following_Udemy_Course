@@ -1,13 +1,17 @@
-define(['views/index','views/register','views/login','views/forgotpassword','views/profile','models/Account','models/StatusCollection'],
-        function(IndexView,Registerview,LoginView,ForgotPasswordView,ProfileView,Account,StatusCollection){
+define(['views/index','views/register','views/login','views/forgotpassword','views/profile','models/Account','models/StatusCollection','models/ContactCollection'],
+        function(IndexView,Registerview,LoginView,ForgotPasswordView,ProfileView,Account,StatusCollection,ContactCollection){
             var SocialRouter = Backbone.Router.extend({
+                
                 currentView:null,
+               
                 routes:{
+                    "addcontact":"addcontact",
                     "index":"index",
                     "login":"login",
                     "register":"register",
                     "forgotpassword":"forgotpassword",
-                    "profile/:id":"profile"
+                    "profile/:id":"profile",
+                    "contacts/:id":"contacts"
                 },
                 changeView:function(view){
                     if(null != this.currentView){

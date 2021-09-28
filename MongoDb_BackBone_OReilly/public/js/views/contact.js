@@ -10,7 +10,7 @@ define(['SocialNetView','text!templates/contact.html'],
             },
             
             addContact:function(){
-                var $responseArea = this.$('.actionArea');
+                var $responseArea = this.$('.actionarea');
                 $.post('/accounts/me/contact',{contactId:this.model.get('id')},
                     function onSuccess(){
                         $responseArea.text('Contact Added');

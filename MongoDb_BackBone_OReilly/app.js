@@ -123,6 +123,27 @@ app.get('/accounts/:id/contacts',function(req,res){
     });
 });
 
+app.post('/accounts/:id/contact',function(req,res){
+    var accountId = req.params.id == 'me' ? req.session.accountId : req.params.id;
+    var contactId = req.query.contactId;
+
+    if(null == contactId){
+        res.send(400);
+        return;
+    };
+
+    models.Account.findById(accountId,function(account){
+        if(account){
+            models.Account.findById(accountId, function (contact) {
+                models.Account.addContact(account, contact);
+                models.Account.addContact(contact, account);
+                account.save();
+            });
+        }
+    });
+    res.send(200);
+});
+
 app.post('/contacts/find',function(req,res){
     var searchStr = req.query.searchStr;
     if(null == searchStr){
@@ -138,6 +159,29 @@ app.post('/contacts/find',function(req,res){
         }
     });
 });
+
+app.delete('/accounts/:id/contact',function(req,res){
+    var accountId = req.params.id == 'me' ? req.session.accountId : req.params.id;
+    var contactId = req.query.contactId; 
+    if(null == contactId){
+        res.send(400);
+        return;
+    }
+
+    mongoose.models.Account.findById(accountId,function(account){
+        if(!account){
+            return;
+        }
+        mongoose.models.Account.findById(contactId,function(Contact){
+            if (!contact) {
+                return;
+            }
+            mongoose.models.Account.removeContact(contact, accountId);
+            mongoose.models.Account.removeContact(accountId, contact);
+        });
+    });
+    res.send(200);
+})
 
 app.post('/forgotpassword',function(req,res){
     var hostname = req.headers.host;
