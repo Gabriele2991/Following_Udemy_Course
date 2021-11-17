@@ -13,14 +13,19 @@
 <body>
     <h1>
         Your random number is: <%= random %>
-            <% if(random%2===0){ %>
-                <h2>This is an even number</h2>
-                <% }else{ %>
-                    <h2>This is an odd number</h2>
-                    <% } %>
+        <% if(random%2===0){ %>
+        <h2>
+            This is an even number
+        </h2>
+        <% }else{ %>
+        <h2>
+            This is an odd number
+        </h2>
+        <% } %>
 
-                        <h3>That number is <%= random%2===0 ? 'EVEN' :'ODD' %>
-                        </h3>
+        <h3>
+            That number is <%= random%2===0 ? 'EVEN' :'ODD' %>
+        </h3>
     </h1>
 
 

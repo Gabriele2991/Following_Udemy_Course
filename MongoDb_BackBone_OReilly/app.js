@@ -11,19 +11,22 @@ var config = {
 };
 
 //Import the accounts
-var Account = require('./models/Account')(config,mongoose,nodemailer);
+var models ={
+    Account: require('./models/Account')(config,mongoose,nodemailer),
+};
 
 app.configure(function(){
     app.set('view engine', 'jade');
     app.use(express.static(__dirname + '/public'));
+    app.use(express.bodyParser());
+    app.use(express.cookieParser());
     app.use(session({
         session:"SocialNet secret key",
         store:new MemoryStore(),
     }));
 
     mongoose.connect(dbPath,function onMongooseError(err){
-        if(err)
-            throw err;
+        if(err) throw err;
     });
 });
 
