@@ -25,7 +25,7 @@ app.get('/register',(req,res)=>{
 
 app.get('/greet',(req,res)=>{
     const {username} = req.session;
-    res.send(`Welcome back ${username}`);l
+    res.send(`Welcome back,${username}`);
 })
 
 app.listen(3000,()=>{
